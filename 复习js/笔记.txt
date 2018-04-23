@@ -1,0 +1,198 @@
+对象：
+
+
+引用值
+
+
+var xiao = {
+    name : '肖建华',
+    age : '20',
+    sex : 'male',
+    health : 19,
+    monkey : function() {
+        console.log('I am a monkey')
+        this.health --
+        alert(this.health)
+    },
+    drink : function() {
+        this.health ++
+        alert(this.health)
+    }
+}
+// 属性的增加:
+xiao.wife = 'xiaohu'
+xiao.sex = 'felmale'
+// 删除
+delete xiao.name
+console.log(xiao)
+
+
+var xiao = {
+    prepareWife : '小王',
+    name : '肖建华',
+    sex : 'male',
+    girl : '小刘',
+    wife : '',
+    divorce : function() {
+        delete this.wife
+        this.wife = this.prepareWife
+    },
+    getMarried : function() {
+        this.wife = this.girl;
+    },
+    change : function(someone) {
+        this.girl = someone
+    }
+}
+
+对象的创建方法
+
+
+//对象的创建方法：
+
+// plainObject 对象字面量/对象直接量
+
+// 构造函数:系统自带的构造函数,自定义,Array(),Number()
+var obj = new Object()
+obj.name = '肖建华';
+obj.sex = 'male';
+obj.say = function() {
+    
+}
+
+
+function Xiao() {
+        this.name = 'BMw';
+        this.height = '4566';
+        this.weight = 1000;
+        this.health = 100
+        this.run = function() {
+            this.health --;
+        }
+        this.color = function(colors) {
+            this.fcolor = colors
+        }
+        this.fcolor = ''
+    }
+
+    var xiao = new Xiao()
+    var xiao1 = new Xiao()
+    // 彼此独立
+    xiao.color('red')
+    alert(xiao.fcolor)
+
+
+
+
+function Student(name,age,sex) {
+    this.name = name
+    this.age = age
+    this.sex = sex
+}
+var obj = new Student('xiao','18','female')
+console.log(obj.name)
+console.log(obj.name)
+console.log(obj.sex)
+
+构造函数基本原理：
+
+构造函数的三段式
+
+函数  + new 后变成 构造函数
+
+function Student() {
+    var this = {
+        name : '肖建华',
+        age : '18',
+        sex : 'felmale'
+    }
+    函数内部的
+
+    return this;
+
+}
+
+var xiao = new Student()
+
+
+//构造函数和正常函数结构上没有区别，但是首字母大写
+        function Student(name,age,sex) {
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+        var obj = new Student('xiao','18','female')
+        console.log(obj.name)
+        console.log(obj.name)
+        console.log(obj.sex)   
+
+
+
+function Person(name,height){
+    // var this = {}
+    this.name = name;
+    this.height = height;
+    // return this
+}
+console.log(new Person('肖建华','165').name)
+
+function Person2(name,height) {
+    var that = {}
+    that.name = name;
+    that.height = height;
+    return that;
+}
+var person = Person2('xiaojianhua')
+console.log(person.name)
+
+
+var num = new Number(132)
+var string = new String('肖')
+var bol = new Boolean()
+// undefined 与 null 没有属性
+console.log(num * 2)
+
+对于Number与Array与String里面有个包装类
+
+
+// 包装类
+
+
+var num = 4;
+num.len = 3;
+// new Number(4).len = 3; delete Number(4).len
+console.log(num.len)
+
+
+var str = 'abc'
+str += 1
+console.log(str)
+var test = typeof(str)
+if(test.length == 6){
+    test.sign = 'typeof的返回结果可能为string'
+}
+console.log(test.sign)
+// 打印出undefined
+// 首先字符串拼接为abc1
+// 然后判断length的确为6
+// 然后添加个属性sign,一开始的确添加进去了，但是人家默认给delete了
+// 所以为undefined
+
+
+
+// 运行test() 和 new test() 结果分别是什么
+var a = 5;
+function test() {
+    a = 0;
+    alert(a)    //0     //
+    alert(this.a)   //里面的this指向window,所以是5,当new以后this指向就发生了改变
+    var a 
+    alert(a)    //0
+}
+var b = new test()
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+

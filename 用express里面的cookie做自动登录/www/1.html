@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+    <span></span>
+    <div id="div" >
+        用户:
+        <input class="dropdown-item-text" type="text" id="user"> 密码:
+        <input class="dropdown-item-text" type="password" id="pass">
+        <button class="btn btn-primary" id="btn">登录</button>
+        <input type="checkbox" id="c">自动登录
+    </div>
+    
+    <script src="jquery.min.js" ></script>
+    <script>
+        $('button').on('click',function(){
+            $.ajax({
+                url : 'http://localhost:9999/leo',
+                type : 'get',
+                success : function(data) {
+                    console.log(data)
+                    $('input').eq(0).val(data.user)
+                    $('input').eq(1).val(data.pass)
+                    setTimeout(function(){
+                        $.ajax({
+                            url: 'http://localhost:9999/login',
+                            type : 'get',
+                            data : {
+                                user : $('input').eq(0).val(),
+                                pass : $('input').eq(1).val()
+                            },
+                            success : function(data) {
+                                if(data == 'ok'){
+                                    $('div').css({
+                                        'display' : 'none'
+                                    })
+                                    $('span').html('欢迎您' + $('input').eq(0).val())
+                                }
+                            }
+                        })
+                    },1000)
+                }
+            })
+        })
+    </script>
+</body>
+</html>

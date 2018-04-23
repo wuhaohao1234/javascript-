@@ -1,0 +1,296 @@
+原型：
+
+构造函数制作出对象的祖先
+
+Person.prototype    -- 原型
+
+Person.prototype = {}   是祖先
+
+function Person() {
+
+}
+
+var person = new Person()
+
+
+
+Person.prototype.name = 'hehehe'
+        Person.prototype.lastName = '吴'        
+        Person.prototype.say = function() {
+            console.log('呵呵')
+        }
+        function Person() {
+            this.lastName = '肖'
+        }
+        var person = new Person()
+        var person1 = new Person()
+        console.log(person.lastName)
+        // person.say()
+        // console.log(person.lastName)
+        // console.log(person1.name)
+
+
+        function Car(color,owner) {
+            this.owner = owner
+            this.carName = "宝马"
+            this.height = 1400
+            this.lang = 4900
+            this.color = color
+        }
+        var car = new Car('red',200)
+
+        这样写实在是效率低，每次构造对象，每个属性都得执行一遍，浪费效率
+
+        可以把公有属性写在原型上
+
+        利用原型的特点，可以提取公有属性
+
+
+
+        通过对象修改原型基本不可能
+
+        Person.prototype = {
+            name : 'xiao',
+            age : '18',
+            
+        }
+
+        function Person() {
+
+        }
+        function Car() {
+            this.constructor = Person;
+        }
+        var car = new Car()
+        console.log(car.constructor) //指向构造函数,可以手动更改
+
+        function Person() {
+
+        }
+        function Car() {
+            this.constructor = Person;
+        }
+        var car = new Car()
+        console.log(car.constructor) //指向构造函数,可以手动更改
+
+
+        Person.prototype.name = 'sunny'
+        function Person() {
+            
+        }
+        Person.prototype.name = 'cherry'
+        var perosn = new Person()
+        console.log(perosn.name)    //chery
+
+
+        perosn.prototype = {
+
+        }彻底改变原型
+
+
+        var obj = {
+            name : 'a'
+        }
+        var obj1 = obj
+        obj = {
+            name : 'b'
+        }
+        console.log(obj1)  //打印出a
+------------------------------------------------------------------
+
+        Person.prototype.name = 'sunny'
+        function Person() {
+
+        }
+        Person.prototype = {
+            name : 'chery'
+        }
+        var person = new Person()
+        console.log(person.name)    //chery
+
+
+
+        Grand.prototype.lastName = 'xiao'
+        function Grand() {
+
+        }
+        var grand = new Grand()
+        Father.prototype = grand;
+        function Father() {
+
+        }
+        var father = new Father()
+        Son.prototype = father;
+        function Son() {
+
+        }
+        var son = new Son()
+        console.log(son.lastName)
+        console.log(son.toString)
+
+
+        ------------------------------------------------------
+
+        var obj = {
+            name : 'sunny',
+            age : 123
+        }
+        var obj1 = Object.create(obj)
+        console.log(obj1.name)
+
+        ----------------------------------------------------------------------------------------
+
+        可正常计算的范围：小数点前16位，后16位
+
+
+
+        // function test() {
+        //     alert(1)
+        // }
+        // test()
+        // test.call()
+        // 正常来说：test() 与 test.call() 一样
+
+        ---------------------------------------------------------------
+
+        // call/apply
+        // 作用：改变this指向
+        function Person(name,age) {
+            this.name = name;
+            this.age = age;
+        }
+        var perosn = new Person('xiao',18)
+        var obj = {
+
+        }
+        Person.call(obj,'wu','20')
+
+        // Person里面的this就变成了obj
+
+        // function Person(name,age){
+        //      obj.name = name;
+        //      obj.age = age
+        //  }
+
+
+
+
+
+        function Person(name,age,sex) {
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+
+        function Student(name,age,sex,tel,grade) {
+            Person.call(this,name,age,sex)
+            this.tel = tel
+            this.grade = grade
+        }
+        
+        var student = new Student('sunny',123,'male',139,2017)
+
+
+        ------------------------------------
+
+
+        function Person(name,age,sex) {
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+
+        function Student(name,age,sex,tel,grade) {
+            Person.call(this,name,age,sex)
+            this.tel = tel
+            this.grade = grade
+        }
+
+        var student = new Student('sunny',123,'male',139,2017)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // call/apply
+        // 作用：改变this指向
+        // function Person(name,age) {
+        //     this.name = name;
+        //     this.age = age;
+        // }
+        // var perosn = new Person('xiao',18)
+        // var obj = {
+
+        // }
+        // Person.call(obj,'wu','20')
+
+        // Person里面的this就变成了obj
+
+        // function Person(name,age){
+        //      obj.name = name;
+        //      obj.age = age
+        //  }
+         
+
+
+        // function test() {
+        //     alert(1)
+        // }
+        // test()
+        // test.call()
+        // 正常来说：test() 与 test.call() 一样
+            
+
+        // function Person(name,age,sex) {
+        //     this.name = name
+        //     this.age = age
+        //     this.sex = sex
+        // }
+
+        // function Student(name,age,sex,tel,grade) {
+        //     Person.call(this,name,age,sex)
+        //     this.tel = tel
+        //     this.grade = grade
+        // }
+
+        // var student = new Student('sunny',123,'male',139,2017)
+
+
+        // call 需要把实参按照形参的个数传入，apply需要传入一个arguments
+
+
+        function Person(name,age,sex) {
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+
+        function Student(name,age,sex,tel,grade) {
+            Person.call(this,[name,age,sex])
+            this.tel = tel
+            this.grade = grade
+        }
+
+        var student = new Student('sunny',123,'male',139,2017)
+
+
+
+
+        --------------------------------------------------------------------------------
+
+
+        

@@ -1,0 +1,126 @@
+数据库：存数据的库表
+
+mysql
+
+适用于中小企业
+
+安全性 一般
+
+数据库：存数据
+
+库
+
+表
+
+主键：一把钥匙只能开一把锁
+
+前台链接后台：ajax
+
+前台 --------->ajax----------->后台-------->数据库
+
+
+增:INSERT INTO 表名  键值  VALUES(字段)
+
+删
+
+改
+
+查:SELECT * FROM `表名`
+
+    创建一个连接池：
+
+var pool = mysql.createPool({
+    'host' : 'localhost',
+    'user' : 'root',
+    'password' : '6106251996wh',
+    'database' : '2018-4-16',
+    'port' : '9999'
+})  //创建mysql的连接池
+
+
+pool.getConnection(function(err,connection){
+    if(err){
+        console.log('连接失败')
+    }else{
+        connection.query('SELECT * FROM `table`',function(err,data){
+            if(err){
+                console.log(err)
+            }else{
+                console.log(data)
+                connection.end()
+            }
+        })
+        console.log('ok')
+    }
+})
+
+
+
+Mysql创建数据库的方法：
+
+首先：
+
+    1、查看自己有哪些数据库：
+    show databases;
+    2、创建一个新的库：
+    create database student;
+    3、使用创建的库
+    use student;
+    4、创建表
+
+    create table `network`(
+        `id` char(10) not null primary key,
+        `use` char(10) not null,
+        `pass` char(10) not null);
+
+    5、查看已经创建的表
+
+    describe network;
+
+    6、往表里面添加数据
+
+    insert into network values("0", "wuhao", "123");
+
+    7、查看自己的表
+
+    SELECT * FROM network;
+
+
+
+
+
+
+
+
+    pool.getConnection(function (err, connection) {
+    if (err) {
+        console.log('no')
+    } else {
+            console.log('ok')
+            connection.query('INSERT INTO network (`id`, `use`, `pass`) VALUES("3", "wang2", "789")', function (err, data) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log(data)
+                    
+                    connection.end()
+                }
+            })
+        }
+    })
+
+
+where  字句 有的话更加精准
+
+
+select 所有值 (更精准的值) 查多个字段用逗号隔开 from `表` where `use`='wuhao';
+
+delete from `network`  千万不要用，一旦用了就扯淡了
+
+delete from `network` where `use`='zhao'
+
+改：update:更新
+
+update `network` set `use`='sky',`pass`='789'  千万别用，一用就彻底完事
+
+update `network` set `use`='xiaomin',`pass`='110' where `use`='sse'
