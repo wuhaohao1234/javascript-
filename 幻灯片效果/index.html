@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>幻灯片效果</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        body{
+            padding:50px 0;
+            background:#fff;
+            font-size:14px;
+            font-family: 'Avenir Next';
+            color:#555;
+            -webkit-font-somoothing:antialiased;
+        }
+        .slider .main .main-i,
+        .slider .main,
+        .slider{
+            width:100%;
+            height: 400px;
+            position: relative;
+        }
+        .slider .main{
+            overflow: hidden;
+        }
+        .slider .main .main-i{
+
+        }
+        .slider .main .main-i img{
+            width:100%;
+            left:0;
+            top:50%;
+            position: absolute;
+            z-index:1;
+        }
+        .slider .main .main-i .caption{
+            position: absolute;
+            right:50%;
+            top:30%;
+            z-index:9;
+        }
+        .slider .main .main-i .caption h2{
+            font-size:40px;
+            line-height: 50px;
+            color:#b5b5b5;
+            text-align: right;
+        }
+        .slider .main .main-i .caption h3{
+            font-size:50px;
+            line-height: 50px;
+            color:#000;
+            text-align: right;
+            font-family: 'Open Sans Condensed'
+        }
+        .slider .ctrl{
+            width:100%;
+            height:13px;
+            line-height: 13px;
+            text-align: center;
+            position: absolute;
+            left:0;
+            bottom:-13px;
+        }
+        .slider .ctrl .ctrl-i{
+            display: inline-block;
+            width:150px;
+            height: 13px;
+            background:#666;
+            box-shadow: 0 1px 1px rgba(0,0,0,.3);
+            position: relative;
+        }
+        .slider .ctrl .ctrl-i img{
+            width:100%;
+            position: absolute;
+            left:0;
+            bottom:50px;
+            z-index:1;
+            opacity: 0;            
+            transition: all .2s;
+        }
+        .slider .ctrl .ctrl-i:hover{
+            background:#f0f0f0;
+        }
+        .slider .ctrl .ctrl-i:hover img{
+            bottom:13px;
+            -webkit-box-reflect: below 0px -webkit-gradient(
+                linear,
+                left top,
+                left bottom,
+                from(transparent),
+                color-stop(50%,transparent),
+                to(rgba(255,255,255,.3))
+                );
+            opacity: 1;
+        }
+        .slider .ctrl .ctrl-i_active:hover,
+        .slider .ctrl .ctrl-i_active{
+            background: #000;
+        }
+        .slider .ctrl .ctrl-i_active:hover img{
+            opacity: 0;
+        }
+        .slider .main .main-i{
+            opacity: 0;
+            position: absolute;
+            right:50%;
+            top:0;
+            transition: all .5s;
+        }
+        .slider .main .main-i_active{
+            right:0;
+            opacity: 1;
+        }
+        .slider .main .main-i h2,
+        .slider .main .main-i h3{
+            opacity: 0;
+            transition: all 1s .8s;
+        }
+        .slider .main .main-i h2{
+            margin-right:45px;
+        }
+        .slider .main .main-i h3{
+            margin-right:-45px;
+        }
+        .slider .main .main-i_active h3,
+        .slider .main .main-i_active h2{
+            margin-right:0;
+            opacity: 1;
+        }
+        .slider .main .main-i .caption{
+            margin-right:13%;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <!-- 幻灯片区域 -->
+        <div class="main" id="template_main">
+            <div class="main-i" id="main_{{index}}" >
+                <div class="caption">
+                    <h2>{{h2}}</h2>
+                    <h3>{{h3}}</h3>
+                </div>
+                <img class="picture" src="images/{{index}}.jpg">
+            </div>
+        </div>
+        <!-- 控制按钮 -->
+        <div class="ctrl" id="template_ctrl">
+            <a class='ctrl-i' id="ctrl_{{index}}" href="javascript:switchSlider({{index}});">
+                <img src="images/{{index}}.jpg">
+            </a>
+        </div>
+    </div>
+    <script>
+        var data = [
+            { img: 1, h2: 'Creative', h3: 'Duet' },
+            { img: 2, h2: 'Friendyl', h3: 'Duety' },
+            { img: 3, h2: 'Creafjdktive', h3: 'hussler' },
+            { img: 4, h2: 'Crea', h3: 'huss' },
+            { img: 5, h2: 'Pass', h3: 'hussler' },
+            { img: 6, h2: 'Mannerafjdktive', h3: 'hussler' }
+        ]
+        var g = function (id) {
+            if(id.substr(0,1) == '.'){
+                return document.getElementsByClassName(id.substr(1))
+            }
+            return document.getElementById(id)
+        }
+        function addSliders() {
+            var tpl_main = g('template_main').innerHTML.replace(/^\s*/,'').replace(/\s*$/, '')
+            console.log(tpl_main)
+            var tpl_ctrl = g('template_ctrl').innerHTML.replace(/^\s*/, '').replace(/\s*$/, '')
+            console.log(tpl_ctrl)
+            var out_main = []
+            var out_ctrl = []
+            for(i in data){
+                var _html_main = tpl_main
+                                        .replace(/{{index}}/g,data[i].img)
+                                        .replace(/{{h2}}/g, data[i].h2)
+                                        .replace(/{{h3}}/g, data[i].h3)
+                var _html_ctrl = tpl_ctrl.replace(/{{index}}/g, data[i].img)
+                out_main.push(_html_main)
+                out_ctrl.push(_html_ctrl)
+            }
+            g('template_main').innerHTML = out_main.join('')
+            g('template_ctrl').innerHTML = out_ctrl.join('')
+        }
+        function  switchSlider(n) {
+            var main = g('main_' + n)
+            var ctrl = g('ctrl_' + n)
+            var clear_main = g('.main-i')
+            var clear_ctrl = g('.ctrl-i')
+            for(i = 0;i < clear_ctrl.length; i ++){
+                clear_main[i].className = 'main-i'
+                clear_ctrl[i].className = 'ctrl-i'
+            }
+            main.className += ' main-i_active'
+            ctrl.className += ' ctrl-i_active'
+        }
+        function movePictures() {
+            var pictures = g('.picture')
+            for(i = 0;i < pictures.length;i ++){
+                pictures[i].style.marginTop =- pictures[i].clientHeight/2 + 'px'
+            }
+        }
+        window.onload = function () {
+            addSliders()
+            switchSlider(1)
+            setTimeout(() => {
+                movePictures()
+            }, 100);
+        }
+    </script>
+</body>
+</html>
