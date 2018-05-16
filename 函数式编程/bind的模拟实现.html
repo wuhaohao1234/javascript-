@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bind模拟实现</title>
+    <style>
+        div{
+            width:100px;
+            height:100px;
+            background:#f00;
+        }
+    </style>
+</head>
+<body>
+    <div>bind模拟实现</div>
+    <script>
+        // var list = {
+        //     init : function() {
+        //         this.massage = 'hello'
+        //         this.bindEvent()
+        //     },
+        //     bindEvent : function() {
+        //         var oDiv = document.getElementsByTagName('div')[0]
+        //         oDiv.onclick = this.bind.call(this)
+        //     },
+        //     bind : function () {
+        //         this.show()
+        //     },
+        //     show : function() {
+        //         console.log(this.massage)
+        //     }
+        // }
+        // list.init()
+        var list = {
+            init: function () {
+                this.massage = 'hello'
+                this.bindEvent()
+            },
+            bindEvent: function () {
+                var oDiv = document.getElementsByTagName('div')[0]
+                oDiv.onclick = this.show.bind(this)     //这里面.bind实际上是返回一个新的函数，.call是直接调用这个函数
+            },
+            show: function (e) {
+                console.log(e.target,this)
+            }
+        }
+        list.init()
+    </script>
+</body>
+</html>
